@@ -12,7 +12,7 @@ on post-fs
     mkdir /persist-lg/lg_persist_property 0700 root root
 
     #CAPP_SECUREBOOT
-    exec /sbin/wallpaper -ap
+    #exec /sbin/wallpaper -ap
 
     #QFUSE
     write /sys/devices/platform/lge-qfprom/sec_read 0
