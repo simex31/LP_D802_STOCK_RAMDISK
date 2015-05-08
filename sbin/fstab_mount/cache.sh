@@ -1,9 +1,22 @@
 #!/sbin/busybox sh
 
-CACHE=$(/sbin/busybox blkid /dev/block/mmcblk0p35 | /sbin/busybox grep "f2fs" | /sbin/busybox wc -l)
+BB=/sbin/busybox
 
-if [ "${CACHE}" -eq "1" ]; then
-	mount -t f2fs -o noatime,nosuid,nodev,discard,nodiratime,inline_xattr,inline_data /dev/block/platform/msm_sdcc.1/by-name/cache /cache
+CACHE=$($BB blkid /dev/block/platform/msm_sdcc.1/by-name/cache | $BB grep "f2fs" | $BB wc -l);
+
+if [ ! -e /cache ]; then
+	mkdir /cache;
+	chown system:cache /cache;
+	chmod 0770 /cache;
+fi;
+
+if [ "$CACHE" -eq "1" ]; then
+	$BB mount -t f2fs -o nosuid,nodev /dev/block/platform/msm_sdcc.1/by-name/cache /cache;
 else
 	mount -t ext4 -o noatime,nosuid,nodev,barrier=1,noauto_da_alloc,errors=continue /dev/block/platform/msm_sdcc.1/by-name/cache /cache
+fi;
+
+if [ ! -e /cache/lost+found ]; then
+	mkdir /cache/lost+found;
+	chmod 0770 /cachelost+found;
 fi;
