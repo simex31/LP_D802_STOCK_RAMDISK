@@ -111,6 +111,9 @@
     echo 2 > /proc/sys/net/ipv6/conf/rmnet_usb2/accept_ra
     echo 2 > /proc/sys/net/ipv6/conf/rmnet_usb3/accept_ra
 
+    # Force enable fast charge
+    echo 2 > /sys/kernel/fast_charge/force_fast_charge
+
     # To prevent out of order acknowledgements from making
     # connection tracking to treat them as not belonging to
     # the connection they belong to.
